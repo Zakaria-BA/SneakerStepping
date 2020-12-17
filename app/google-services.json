@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "763777740765",
+    "project_id": "sneakerstepp",
+    "storage_bucket": "sneakerstepp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763777740765:android:ceb95465ef62ebfb755034",
+        "android_client_info": {
+          "package_name": "com.example.sneakerstepping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763777740765-3bppnoh7bjobh01r9d4lgsr6p2tug6qd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBax5fVLf8rfamFGSGZY1MtmGqyhWGzRoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763777740765-3bppnoh7bjobh01r9d4lgsr6p2tug6qd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
