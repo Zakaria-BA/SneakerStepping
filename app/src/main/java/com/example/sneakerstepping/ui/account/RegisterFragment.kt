@@ -25,7 +25,7 @@ class RegisterFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        viewModel.auth = Firebase.auth
+        viewModel.setAuth(Firebase.auth)
         return inflater.inflate(R.layout.login_fragment, container, false)
     }
 
