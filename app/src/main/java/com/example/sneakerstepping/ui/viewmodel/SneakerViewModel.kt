@@ -22,4 +22,8 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
         firebaseRepository.createAccount(user, activity)
     }
 
+    fun signIn(user: User, activity: Activity){
+        firebaseRepository.signIn(user, activity)
+    }
+
 }
