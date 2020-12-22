@@ -25,4 +25,15 @@ class FirebaseRepository {
                 }
             }
     }
+
+    fun signIn(user: User, activity: Activity){
+        auth.signInWithEmailAndPassword(user.email, user.password)
+            .addOnCompleteListener(activity){
+                if(it.isSuccessful){
+                    _user.value = auth.currentUser
+                } else{
+                    Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
 }
