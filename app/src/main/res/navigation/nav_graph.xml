@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.sneakerstepping.ui.startup.LoginFragment"
+        android:name="com.example.sneakerstepping.ui.account.RegisterFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/login_fragment">
 
