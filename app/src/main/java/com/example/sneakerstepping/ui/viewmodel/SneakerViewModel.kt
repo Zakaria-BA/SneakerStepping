@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.example.sneakerstepping.models.User
 import com.example.sneakerstepping.repository.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -14,8 +15,11 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
 
     val user: LiveData<FirebaseUser?> = firebaseRepository.user
 
+    val registerSucces: LiveData<Boolean> = firebaseRepository.registerSucces
+
     fun setAuth(auth: FirebaseAuth){
         firebaseRepository.auth = auth
+        firebaseRepository.checkForUser()
     }
 
     fun createUser(user: User, activity: Activity){

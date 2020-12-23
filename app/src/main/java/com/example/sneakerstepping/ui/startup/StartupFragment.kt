@@ -6,9 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.sneakerstepping.R
+import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.startup_fragment.*
 
 /**
@@ -16,22 +21,36 @@ import kotlinx.android.synthetic.main.startup_fragment.*
  */
 class StartupFragment : Fragment() {
     lateinit var navController: NavController
+    private val viewModel: SneakerViewModel by activityViewModels()
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        viewModel.setAuth(Firebase.auth)
         return inflater.inflate(R.layout.startup_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        registerButton.setOnClickListener { navigateUser() }
+        observeUser()
+        createAccountButton.setOnClickListener { navigateUser() }
     }
 
-    fun navigateUser(){
+    private fun navigateUser(){
         navController.navigate(R.id.action_startupFragment_to_registerFragment)
     }
+
+    private fun observeUser(){
+        viewModel.user.observe(viewLifecycleOwner, {
+            if (it != null){
+                navController.navigate(R.id.action_startupFragment_to_homeFragment)
+            }
+        })
+    }
+
+
 }
