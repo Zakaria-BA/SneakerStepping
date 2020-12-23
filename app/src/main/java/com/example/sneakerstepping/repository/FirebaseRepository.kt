@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.sneakerstepping.models.User
+import com.google.android.gms.auth.api.Auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -52,5 +53,6 @@ class FirebaseRepository {
 
     fun signOut(){
         auth.signOut()
+        _user.value = null
     }
 }
