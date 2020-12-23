@@ -11,7 +11,7 @@
         </item>
         <item
             android:id="@+id/secondItem"
-            android:title="Test">
+            android:title="Log out">
 
         </item>
     </group>

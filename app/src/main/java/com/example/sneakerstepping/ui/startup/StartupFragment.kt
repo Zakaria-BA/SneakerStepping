@@ -19,6 +19,8 @@ import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.startup_fragment.*
+import java.lang.Exception
+import kotlin.math.log
 
 
 /**
@@ -79,7 +81,11 @@ class StartupFragment : Fragment() {
     private fun observeUser(){
         viewModel.user.observe(viewLifecycleOwner, {
             if (it != null) {
-                navController.navigate(R.id.action_startupFragment_to_homeFragment)
+                try {
+                    navController.navigate(R.id.action_startupFragment_to_homeFragment)
+                } catch (e: Exception){
+                    Log.e(TAG, e.toString())
+                }
             } else updateUi(false)
         })
     }

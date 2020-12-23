@@ -60,11 +60,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return  when (item.itemId){
-            R.id.firstItem -> {
+            R.id.secondItem -> {
                 viewModel.signOut()
                 drawerLayout.closeDrawer(GravityCompat.START)
                 Toast.makeText(this, "You succesfully logged out", Toast.LENGTH_SHORT).show()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, StartupFragment()).commit()
+                val navController = findNavController(R.id.nav_host_fragment)
+                navController.navigate(R.id.action_homeFragment_to_startupFragment)
                 true
             }
             else -> true
@@ -76,7 +77,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         } else {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-
         }
     }
 }
