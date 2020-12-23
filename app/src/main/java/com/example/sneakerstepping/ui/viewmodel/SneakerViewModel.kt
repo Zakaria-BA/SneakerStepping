@@ -30,4 +30,8 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
         firebaseRepository.signIn(user, activity)
     }
 
+    fun signOut() {
+        firebaseRepository.signOut()
+    }
+
 }

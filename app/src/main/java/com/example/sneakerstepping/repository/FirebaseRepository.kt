@@ -49,4 +49,8 @@ class FirebaseRepository {
                 }
             }
     }
+
+    fun signOut(){
+        auth.signOut()
+    }
 }

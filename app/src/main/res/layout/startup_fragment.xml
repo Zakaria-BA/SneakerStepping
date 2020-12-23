@@ -5,7 +5,7 @@
     android:background="@drawable/gradient_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.account.RegisterFragment">
+    tools:context=".ui.startup.StartupFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/clLogin"
     android:layout_width="match_parent"
