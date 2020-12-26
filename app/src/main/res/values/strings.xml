@@ -21,4 +21,9 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="welcome_back">Welcome Back</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_for_a_shoe">Search for a shoe</string>
+    <string name="or_do_a_request">Or do a request!</string>
+    <string name="sneakerstepping">SneakerStepping</string>
 </resources>

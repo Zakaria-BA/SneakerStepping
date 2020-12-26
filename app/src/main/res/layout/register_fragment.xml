@@ -5,14 +5,14 @@
     android:background="@drawable/gradient_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.account.RegisterFragment">
+    tools:context=".ui.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/clRegister"
         android:background="@drawable/gradient_color"
-        tools:context=".ui.account.RegisterFragment">
+        tools:context=".ui.RegisterFragment">
 
         <TextView
             android:id="@+id/tvWelcomeText"

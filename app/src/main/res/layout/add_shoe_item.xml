@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/addShoeMaterialCard"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/ivAddShoePicture"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                android:src="@drawable/gradient_color"
+                 />
+
+            <TextView
+                android:id="@+id/tvAddShoeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SHOE NAME"
+                android:textSize="25dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/addShoeMaterialCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_height="3dp"
+        android:background="@drawable/gradient_color" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

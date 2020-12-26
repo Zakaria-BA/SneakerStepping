@@ -1,4 +1,4 @@
-package com.example.sneakerstepping.ui.account
+package com.example.sneakerstepping.ui
 
 import android.os.Bundle
 import android.util.Patterns
@@ -14,9 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.sneakerstepping.R
 import com.example.sneakerstepping.models.User
 import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.register_fragment.*
 
 /**

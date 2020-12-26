@@ -1,4 +1,4 @@
-package com.example.sneakerstepping.ui.startup
+package com.example.sneakerstepping.ui
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -19,7 +19,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.startup_fragment.*
 import java.lang.Exception
-import kotlin.math.log
 
 
 /**
@@ -41,13 +40,14 @@ class StartupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-        setHasOptionsMenu(false)
+
         initViews()
     }
 
     private fun initViews() {
+        navController = findNavController()
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+        setHasOptionsMenu(false)
         observeUser()
         createAccountButton.setOnClickListener { navigateUser() }
         logInButton.setOnClickListener { logIn() }

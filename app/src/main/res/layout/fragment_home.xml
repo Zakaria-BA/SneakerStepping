@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.overview.HomeFragment">
+    tools:context=".ui.HomeFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/clHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.overview.HomeFragment">
+    tools:context=".ui.HomeFragment">
 
     <TextView
         android:id="@+id/tvWelcomeBack"
@@ -50,6 +50,19 @@
         app:layout_constraintTop_toBottomOf="@id/collectionDivider"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        app:layout_constraintRight_toRightOf="parent"
+        android:backgroundTint="@color/red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
