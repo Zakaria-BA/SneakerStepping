@@ -4,6 +4,7 @@ data class Shoe (
        var shoeName: String,
        var shoeImage: String,
        var shoeType: String,
-       var milageCovered: Long
+       var milageCovered: Long,
+       var backgroundColor: String
 ){
 }

@@ -13,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.sneakerstepping.R
-import com.example.sneakerstepping.`interface`.DrawerLocker
 import com.example.sneakerstepping.models.User
 import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
 import com.google.firebase.auth.ktx.auth
