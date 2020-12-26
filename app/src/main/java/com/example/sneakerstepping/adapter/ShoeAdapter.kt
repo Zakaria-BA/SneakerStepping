@@ -1,12 +1,17 @@
 package com.example.sneakerstepping.adapter
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.sneakerstepping.R
 import com.example.sneakerstepping.models.Shoe
+import kotlinx.android.synthetic.main.shoe_card_item.view.*
+import java.lang.reflect.Field
+
 
 class ShoeAdapter(private val shoes: List<Shoe>) : RecyclerView.Adapter<ShoeAdapter.ViewHolder>() {
     private lateinit var context: Context
@@ -14,7 +19,8 @@ class ShoeAdapter(private val shoes: List<Shoe>) : RecyclerView.Adapter<ShoeAdap
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(shoe: Shoe) {
-            // binding happens here
+            Glide.with(context).load(shoe.shoeImage).into(itemView.ivShoePicture)
+            itemView.tvTitle.text = shoe.shoeName
         }
     }
 
@@ -22,7 +28,7 @@ class ShoeAdapter(private val shoes: List<Shoe>) : RecyclerView.Adapter<ShoeAdap
         context = parent.context
 
         return ViewHolder(
-                LayoutInflater.from(context).inflate(R.layout, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.shoe_card_item, parent, false)
         )
     }
 
