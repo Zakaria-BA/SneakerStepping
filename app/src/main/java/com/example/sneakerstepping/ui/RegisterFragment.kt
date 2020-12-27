@@ -39,9 +39,12 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initViews() {
+        fab_register_screen.setOnClickListener { navController.navigate(R.id.action_registerFragment_to_startupFragment) }
         registerButton.setOnClickListener { createUser() }
         observeRegisteringSucces()
     }
+
+
 
     private fun updateUi(registering: Boolean) {
         if (registering) {

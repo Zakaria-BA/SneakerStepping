@@ -78,12 +78,12 @@
                     android:layout_height="3dp"
                     android:background="@drawable/gradient_color" />
 
-                                <TextView
-                                    android:id="@+id/tvShoeMilageToday"
-                                    android:textColor="@color/white"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="How many km walked today?" />
+<!--                                <TextView-->
+<!--                                    android:id="@+id/tvShoeMilageToday"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="How many km walked today?" />-->
 
                                 <TextView
                                     android:id="@+id/tvShoeMilageEver"
