@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sneakerstepping.R
@@ -17,8 +19,10 @@ import kotlinx.android.synthetic.main.fragment_add_shoe.*
 
 class AddShoeFragment : Fragment() {
     private val shoesForUsers = arrayListOf<Shoe>()
-    private val addShoeAdapter = AddShoeAdapter(shoesForUsers)
+    private val addShoeAdapter = AddShoeAdapter(shoesForUsers, ::addShoeAndNavigate)
     private val viewModel: SneakerViewModel by activityViewModels()
+    private lateinit var navController: NavController
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +48,7 @@ class AddShoeFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         rvAddShoe.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvAddShoe.adapter = addShoeAdapter
+        navController = findNavController()
         observeShoes()
     }
 
@@ -52,6 +57,11 @@ class AddShoeFragment : Fragment() {
             shoesForUsers.addAll(it)
             addShoeAdapter.notifyDataSetChanged()
         })
+    }
+
+    private fun addShoeAndNavigate(shoe: Shoe){
+        viewModel.addShoeToCollection(shoe, requireContext())
+        navController.navigate(R.id.action_addShoeFragment_to_homeFragment)
     }
 
 }

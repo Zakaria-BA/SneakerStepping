@@ -13,10 +13,16 @@ import kotlinx.android.synthetic.main.shoe_card_item.view.*
 import java.lang.reflect.Field
 
 
-class ShoeAdapter(private val shoes: List<Shoe>) : RecyclerView.Adapter<ShoeAdapter.ViewHolder>() {
+class ShoeAdapter(private val shoes: List<Shoe>, private val onClick: (Shoe) -> Unit) : RecyclerView.Adapter<ShoeAdapter.ViewHolder>() {
     private lateinit var context: Context
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.putOnButton.setOnClickListener {
+                onClick(shoes[adapterPosition])
+            }
+        }
 
         fun bind(shoe: Shoe) {
             Glide.with(context).load(shoe.shoeImage).into(itemView.ivShoePicture)

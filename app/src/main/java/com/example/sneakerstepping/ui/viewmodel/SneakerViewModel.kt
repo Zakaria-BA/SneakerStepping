@@ -2,8 +2,10 @@ package com.example.sneakerstepping.ui.viewmodel
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.sneakerstepping.models.Shoe
 import com.example.sneakerstepping.models.User
@@ -11,15 +13,20 @@ import com.example.sneakerstepping.repository.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class SneakerViewModel(application: Application) : AndroidViewModel(application) {
     private val firebaseRepository: FirebaseRepository = FirebaseRepository()
 
     val user: LiveData<FirebaseUser?> = firebaseRepository.user
     val shoesForUsers: LiveData<ArrayList<Shoe>> = firebaseRepository.shoesForUser
-
     val registerSucces: LiveData<Boolean> = firebaseRepository.registerSucces
+    val collectionOfShoes: LiveData<ArrayList<Shoe>> = firebaseRepository.collectionOfShoes
+
+    private val _shoeOnFoot: MutableLiveData<Shoe> = MutableLiveData()
+
+    val shoeOnFoot: LiveData<Shoe>
+        get() = _shoeOnFoot
+
 
     fun setAuth(auth: FirebaseAuth){
         firebaseRepository.auth = auth
@@ -46,6 +53,28 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
                 throw e
             }
         }
+    }
+
+    fun addShoeToCollection(shoe: Shoe, context: Context){
+        firebaseRepository.addShoeToCollection(shoe, context)
+    }
+
+    fun getCollectionOfShoes(context: Context){
+        viewModelScope.launch {
+            try {
+                firebaseRepository.getCollectionOfShoes(context)
+            } catch (e: Exception){
+                throw e
+            }
+        }
+    }
+
+    fun setPutOnShoe(shoe: Shoe){
+        _shoeOnFoot.value = shoe
+    }
+
+    fun removeShoe(){
+        _shoeOnFoot.value = null
     }
 
 }

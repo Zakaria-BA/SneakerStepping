@@ -29,22 +29,93 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="Currently wearing or not wearing"
+        android:text="You have no shoes on foot. :("
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvWelcomeBack"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:visibility="gone"
+        android:id="@+id/shoeOnFootCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWearing"
+        app:layout_constraintWidth_percent="0.8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivShoeOnFootPicture"
+                android:layout_width="120dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp" />
+
+            <LinearLayout
+                android:layout_width="197dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvShoeOnFootTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/white"
+                    android:text="Air Max 1 'Amsterdam'" />
+
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_width="160dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/gradient_color" />
+
+                                <TextView
+                                    android:id="@+id/tvShoeMilageToday"
+                                    android:textColor="@color/white"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="How many km walked today?" />
+
+                                <TextView
+                                    android:id="@+id/tvShoeMilageEver"
+                                    android:textColor="@color/white"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="How many km walked ever?" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/removeShoeButton"
+                    android:layout_width="160dp"
+                    android:layout_height="40dp"
+                    android:text="Take shoe off"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <View
         android:id="@+id/collectionDivider"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvWearing"
+        app:layout_constraintTop_toBottomOf="@id/shoeOnFootCard"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="@drawable/gradient_color"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="200dp"
+        android:id="@+id/rvCollectionShoes"
+        android:layout_marginTop="280dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/collectionDivider"

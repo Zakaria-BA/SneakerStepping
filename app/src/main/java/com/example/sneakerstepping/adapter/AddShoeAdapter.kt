@@ -10,11 +10,17 @@ import com.example.sneakerstepping.R
 import com.example.sneakerstepping.models.Shoe
 import kotlinx.android.synthetic.main.add_shoe_item.view.*
 
-class AddShoeAdapter(private val addShoes: List<Shoe>) :
+class AddShoeAdapter(private val addShoes: List<Shoe>, private val onClick: (Shoe) -> Unit) :
     RecyclerView.Adapter<AddShoeAdapter.ViewHolder>() {
     private lateinit var context: Context
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener{
+                onClick(addShoes[adapterPosition])
+            }
+        }
+
         fun bind(shoe: Shoe) {
             Glide.with(context).load(shoe.shoeImage).into(itemView.ivAddShoePicture)
             itemView.tvAddShoeName.text = shoe.shoeName

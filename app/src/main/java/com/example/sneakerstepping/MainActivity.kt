@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.addShoeItem -> {
+                drawerLayout.closeDrawer(GravityCompat.START)
                 navController.navigate(R.id.action_homeFragment_to_addShoeFragment)
                 true
             }
