@@ -129,7 +129,9 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     override fun onSensorChanged(p0: SensorEvent?) {
         if (hasShoesOnFoot){
-
+            if (p0 != null) {
+                tvShoeMilageEver.setText(p0.values[0].toString())
+            }
         }
     }
 

@@ -77,7 +77,7 @@ class AddShoeFragment : Fragment() {
     }
 
     private fun sendRequestAndNavigate(request: String){
-
+        viewModel.sendRequest(request, requireContext())
         navController.navigate(R.id.action_addShoeFragment_to_homeFragment)
     }
 

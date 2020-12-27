@@ -45,6 +45,10 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
         firebaseRepository.signOut()
     }
 
+    fun sendRequest(request: String, context: Context){
+        firebaseRepository.addRequestToDatabase(request, context)
+    }
+
     fun getAvailableShoes(){
         viewModelScope.launch {
             try {

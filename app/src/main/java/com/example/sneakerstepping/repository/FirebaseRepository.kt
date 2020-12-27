@@ -125,7 +125,7 @@ class FirebaseRepository {
         val data = hashMapOf(
                 "request" to request
         )
-        firestore.collection(request).document().set(data)
+        firestore.collection("shoe_requests").document().set(data)
                 .addOnSuccessListener {
                     Toast.makeText(context, "The request has been made!", Toast.LENGTH_SHORT).show()
                 }
