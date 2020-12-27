@@ -1,11 +1,15 @@
 package com.example.sneakerstepping.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -16,6 +20,7 @@ import com.example.sneakerstepping.adapter.AddShoeAdapter
 import com.example.sneakerstepping.models.Shoe
 import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
 import kotlinx.android.synthetic.main.fragment_add_shoe.*
+
 
 class AddShoeFragment : Fragment() {
     private val shoesForUsers = arrayListOf<Shoe>()
@@ -31,8 +36,8 @@ class AddShoeFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_shoe, container, false)
@@ -49,6 +54,7 @@ class AddShoeFragment : Fragment() {
         rvAddShoe.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvAddShoe.adapter = addShoeAdapter
         navController = findNavController()
+        fab_add_shoe.setOnClickListener { doShoeRequest() }
         observeShoes()
     }
 
@@ -57,6 +63,22 @@ class AddShoeFragment : Fragment() {
             shoesForUsers.addAll(it)
             addShoeAdapter.notifyDataSetChanged()
         })
+    }
+
+    private fun doShoeRequest(){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Which shoe needs to be added to the database?")
+        val input = EditText(requireContext())
+        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        builder.setView(input)
+        builder.setPositiveButton("Send", { dialogInterface: DialogInterface, i: Int -> sendRequestAndNavigate(input.text.toString())})
+        builder.setNegativeButton("Cancel", { dialogInterface: DialogInterface, i: Int -> })
+        builder.show()
+    }
+
+    private fun sendRequestAndNavigate(request: String){
+
+        navController.navigate(R.id.action_addShoeFragment_to_homeFragment)
     }
 
     private fun addShoeAndNavigate(shoe: Shoe){

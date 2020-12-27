@@ -121,6 +121,20 @@ class FirebaseRepository {
                 .addOnFailureListener { Toast.makeText(context, "Failed to add shoe to your collection. :(", Toast.LENGTH_SHORT).show() }
     }
 
+    fun addRequestToDatabase(request: String, context: Context){
+        val data = hashMapOf(
+                "request" to request
+        )
+        firestore.collection(request).document().set(data)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "The request has been made!", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener{
+                    Toast.makeText(context, "The request couldn't be made!", Toast.LENGTH_SHORT).show()
+
+                }
+    }
+
     suspend fun getCollectionOfShoes(context: Context) {
         val android_id = getString(context.contentResolver,
                 ANDROID_ID)
