@@ -26,4 +26,5 @@
     <string name="search_for_a_shoe">Search for a shoe</string>
     <string name="or_do_a_request">Or do a request!</string>
     <string name="sneakerstepping">SneakerStepping</string>
+    <string name="search_hint">Search for a shoe</string>
 </resources>

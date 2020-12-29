@@ -10,5 +10,6 @@
     <color name="dark_pink">#c33764</color>
     <color name="dark_blue">#1d2671</color>
     <color name="red">#ff0000</color>
+    <color name="opacity_red">#59FF0000</color>
 
 </resources>

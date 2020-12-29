@@ -5,6 +5,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/homeItem"
+            android:title="Home">
+
+        </item>
+        <item
             android:id="@+id/addShoeItem"
             android:title="Add Shoe">
 

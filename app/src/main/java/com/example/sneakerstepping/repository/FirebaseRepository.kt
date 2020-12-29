@@ -87,11 +87,12 @@ class FirebaseRepository {
             val data = avaialbleShoes
                     .get()
                     .await()
-
+            availableShoesForUser.clear()
             for (currentItem: DocumentSnapshot in data.documents) {
                 val shoe = Shoe(currentItem.id, currentItem.getString("name").toString(), currentItem.getString("image").toString(), currentItem.getString("type").toString(), 0)
                 availableShoesForUser.add(shoe)
             }
+            _shoesForUser.value?.clear()
             _shoesForUser.value = availableShoesForUser
             _retrieveShoesSucces.value = true
 
@@ -111,15 +112,28 @@ class FirebaseRepository {
                 "image" to shoe.shoeImage,
                 "milage_coverd" to shoe.milageCovered
         )
-        firestore.collection(android_id).document(shoe.shoeId)
-                .set(addedShoe)
+        val checkForDuplicate = firestore.collection(android_id).document(shoe.shoeId)
+        checkForDuplicate.get()
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Shoe is added to your collection!", Toast.LENGTH_SHORT).show()
+                    if (it.getString("name") != shoe.shoeName) {
+                        firestore.collection(android_id).document(shoe.shoeId)
+                                .set(addedShoe)
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Shoe is added to your collection!", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener { Toast.makeText(context, "Failed to add shoe to your collection. :(", Toast.LENGTH_SHORT).show() }
+                    } else {
+                        Toast.makeText(context, "You already have this shoe in your collection!", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                .addOnFailureListener { Toast.makeText(context, "Failed to add shoe to your collection. :(", Toast.LENGTH_SHORT).show() }
+                .addOnFailureListener {
+                    Log.e(TAG, "Something went wrong")
+                }
+
+
     }
 
-    fun updateShoeMilage(shoe: Shoe, context: Context){
+    fun updateShoeMilage(shoe: Shoe, context: Context) {
         val android_id = getString(context.contentResolver,
                 ANDROID_ID)
 
@@ -138,7 +152,7 @@ class FirebaseRepository {
                 .addOnFailureListener { Log.e(TAG, "Shoe milage can't be updated") }
     }
 
-    fun addRequestToDatabase(request: String, context: Context){
+    fun addRequestToDatabase(request: String, context: Context) {
         val data = hashMapOf(
                 "request" to request
         )
@@ -146,7 +160,7 @@ class FirebaseRepository {
                 .addOnSuccessListener {
                     Toast.makeText(context, "The request has been made!", Toast.LENGTH_SHORT).show()
                 }
-                .addOnFailureListener{
+                .addOnFailureListener {
                     Toast.makeText(context, "The request couldn't be made!", Toast.LENGTH_SHORT).show()
 
                 }
@@ -158,8 +172,6 @@ class FirebaseRepository {
         val userCollectionOfShoes: ArrayList<Shoe> = ArrayList()
         val data = firestore.collection(android_id)
         try {
-
-
             val data = data
                     .get()
                     .await()
@@ -167,6 +179,7 @@ class FirebaseRepository {
             for (currentItem: DocumentSnapshot in data.documents) {
                 userCollectionOfShoes.add(Shoe(currentItem.id, currentItem.getString("name").toString(), currentItem.getString("image").toString(), currentItem.getString("type").toString(), currentItem.getLong("milage_coverd")))
             }
+            _collectionOfShoes.value?.clear()
             _collectionOfShoes.value = userCollectionOfShoes
 
         } catch (e: Exception) {

@@ -1,12 +1,18 @@
 package com.example.sneakerstepping
 
+import android.annotation.SuppressLint
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -20,6 +26,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var navigationView: NavigationView
     private val viewModel: SneakerViewModel by viewModels()
     private lateinit var navController: NavController
+    private var inFragment: Int = 0
 
 
 
@@ -28,8 +35,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        navController = findNavController(R.id.nav_host_fragment)
         initViews()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        switchMenu()
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun initViews() {
@@ -39,8 +52,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         navigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
-        navController = findNavController(R.id.nav_host_fragment)
-
     }
 
     override fun onBackPressed() {
@@ -66,7 +77,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 navController.navigate(R.id.action_homeFragment_to_addShoeFragment)
                 true
             }
+            R.id.homeItem -> {
+                if (inFragment == R.id.addShoeFragment){
+                    navController.navigate(R.id.action_addShoeFragment_to_homeFragment)
+                }
+                drawerLayout.closeDrawer(GravityCompat.START)
+                true
+            }
             else -> true
+        }
+    }
+
+    private fun switchMenu() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                in arrayOf(R.id.homeFragment) -> {
+                    inFragment = R.id.homeFragment
+                }
+                in arrayOf(R.id.addShoeFragment) -> {
+                    inFragment = R.id.addShoeFragment
+                }
+            }
         }
     }
 }
