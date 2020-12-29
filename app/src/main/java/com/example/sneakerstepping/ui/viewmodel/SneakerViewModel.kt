@@ -65,6 +65,7 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
 
     fun addShoeToCollection(shoe: Shoe, context: Context) {
         firebaseRepository.addShoeToCollection(shoe, context)
+        getCollectionOfShoes(context)
     }
 
     fun getCollectionOfShoes(context: Context) {
@@ -75,6 +76,11 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
                 throw e
             }
         }
+    }
+
+    fun deleteShoeFromCollection(shoe: Shoe, context: Context){
+        firebaseRepository.deleteShoeFromCollection(shoe, context)
+        getCollectionOfShoes(context)
     }
 
     fun setPutOnShoe(shoe: Shoe, context: Context) {

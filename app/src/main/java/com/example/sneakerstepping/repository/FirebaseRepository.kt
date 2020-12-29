@@ -89,11 +89,9 @@ class FirebaseRepository {
 
         var availableShoesForUser: ArrayList<Shoe> = ArrayList()
         try {
-
             val data = avaialbleShoes
                     .get()
                     .await()
-            availableShoesForUser.clear()
             for (currentItem: DocumentSnapshot in data.documents) {
                 val shoe = Shoe(currentItem.id, currentItem.getString("name").toString(), currentItem.getString("image").toString(), currentItem.getString("type").toString(), 0)
                 availableShoesForUser.add(shoe)
@@ -106,6 +104,18 @@ class FirebaseRepository {
             _retrieveShoesSucces.value = false
             throw e
         }
+    }
+
+    fun deleteShoeFromCollection(shoe: Shoe, context: Context) {
+        val android_id = getString(context.contentResolver,
+                ANDROID_ID)
+
+        firestore.collection(android_id).document(shoe.shoeId)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Shoe deleted succesfully!", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { Toast.makeText(context, "Can't delete shoe :(.", Toast.LENGTH_SHORT).show() }
     }
 
     fun addShoeToCollection(shoe: Shoe, context: Context) {

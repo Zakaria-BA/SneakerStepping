@@ -21,6 +21,7 @@ import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_add_shoe.*
+import okhttp3.internal.wait
 import java.util.*
 import kotlin.collections.ArrayList
 

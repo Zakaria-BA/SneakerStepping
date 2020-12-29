@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -48,6 +49,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager?
+        viewModel.getCollectionOfShoes(requireContext())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -58,13 +60,11 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getCollectionOfShoes(requireContext())
         initViews()
     }
 
     override fun onResume() {
         super.onResume()
-
         var stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
 
         if (stepSensor == null) {
@@ -79,10 +79,12 @@ class HomeFragment : Fragment(), SensorEventListener {
         navController = findNavController()
         rvCollectionShoes.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvCollectionShoes.adapter = shoeAdapter
+        viewModel.getCollectionOfShoes(requireContext())
         removeShoeButton.setOnClickListener { removeShoe() }
         observeShoeOnfeet()
         observeShoes()
         fab.setOnClickListener { navigateUserToAddShoe() }
+        createItemTouchHelper().attachToRecyclerView(rvCollectionShoes)
     }
 
     private fun navigateUserToAddShoe() {
@@ -156,6 +158,32 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
 
+    }
+
+    private fun createItemTouchHelper(): ItemTouchHelper {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+            override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                if (hasShoesOnFoot){
+                    if (shoes[position].shoeId == viewModel.shoeOnFoot.value?.shoeId){
+                        removeShoe()
+                    }
+                }
+                viewModel.deleteShoeFromCollection(shoes[position], requireContext())
+                shoes.removeAt(position)
+                Log.d(TAG, shoes.toString())
+                shoeAdapter.notifyDataSetChanged()
+            }
+        }
+        return ItemTouchHelper(callback)
     }
 
 
