@@ -81,4 +81,8 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
         _shoeOnFoot.value = null
     }
 
+    fun updateShoe(milage: Long, context: Context){
+        firebaseRepository.updateShoeMilage(Shoe(shoeOnFoot.value!!.shoeId, shoeOnFoot.value!!.shoeName, shoeOnFoot.value!!.shoeImage, shoeOnFoot.value!!.shoeType, milage), context)
+    }
+
 }

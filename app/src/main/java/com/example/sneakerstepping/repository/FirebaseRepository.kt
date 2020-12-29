@@ -3,7 +3,6 @@ package com.example.sneakerstepping.repository
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.provider.Settings.Secure
 import android.provider.Settings.Secure.ANDROID_ID
 import android.provider.Settings.Secure.getString
 import android.util.Log
@@ -17,7 +16,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withTimeout
 import java.security.AccessController.getContext
 
 
@@ -119,6 +117,25 @@ class FirebaseRepository {
                     Toast.makeText(context, "Shoe is added to your collection!", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { Toast.makeText(context, "Failed to add shoe to your collection. :(", Toast.LENGTH_SHORT).show() }
+    }
+
+    fun updateShoeMilage(shoe: Shoe, context: Context){
+        val android_id = getString(context.contentResolver,
+                ANDROID_ID)
+
+        val updatedShoe = hashMapOf(
+                "name" to shoe.shoeName,
+                "type" to shoe.shoeType,
+                "image" to shoe.shoeImage,
+                "milage_coverd" to shoe.milageCovered
+        )
+
+        firestore.collection(android_id).document(shoe.shoeId)
+                .set(updatedShoe)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Shoe milage is updated")
+                }
+                .addOnFailureListener { Log.e(TAG, "Shoe milage can't be updated") }
     }
 
     fun addRequestToDatabase(request: String, context: Context){

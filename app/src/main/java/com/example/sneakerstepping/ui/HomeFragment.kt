@@ -1,25 +1,23 @@
 package com.example.sneakerstepping.ui
 
-import android.content.Context
 import android.content.Context.SENSOR_SERVICE
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.nfc.Tag
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
-import androidx.core.view.marginTop
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -30,9 +28,9 @@ import com.example.sneakerstepping.R
 import com.example.sneakerstepping.adapter.ShoeAdapter
 import com.example.sneakerstepping.models.Shoe
 import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
-import kotlinx.android.synthetic.main.fragment_add_shoe.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.shoe_card_item.view.*
+import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 class HomeFragment : Fragment(), SensorEventListener {
     private lateinit var navController: NavController
@@ -41,6 +39,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     private val viewModel: SneakerViewModel by activityViewModels()
     var sensorManager: SensorManager? = null
     private var hasShoesOnFoot: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +95,7 @@ class HomeFragment : Fragment(), SensorEventListener {
 
     private fun observeShoeOnfeet(){
         viewModel.shoeOnFoot.observe(viewLifecycleOwner, {
-            if (it !== null){
+            if (it !== null) {
                 updateUi(it)
                 hasShoesOnFoot = true
             }
@@ -128,9 +127,14 @@ class HomeFragment : Fragment(), SensorEventListener {
     }
 
     override fun onSensorChanged(p0: SensorEvent?) {
+        var currentMilage = viewModel.shoeOnFoot.value!!.milageCovered
         if (hasShoesOnFoot){
             if (p0 != null) {
+                currentMilage!!.plus(p0.values[0].toLong())
                 tvShoeMilageEver.setText(p0.values[0].toString())
+                Handler().postDelayed({
+                    viewModel.updateShoe(currentMilage, requireContext())
+                }, 1000)
             }
         }
     }
