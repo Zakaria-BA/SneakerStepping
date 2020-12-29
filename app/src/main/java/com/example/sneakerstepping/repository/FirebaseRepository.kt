@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import okhttp3.internal.wait
 import java.security.AccessController.getContext
 
 
@@ -118,7 +119,7 @@ class FirebaseRepository {
                 .addOnFailureListener { Toast.makeText(context, "Can't delete shoe :(.", Toast.LENGTH_SHORT).show() }
     }
 
-    fun addShoeToCollection(shoe: Shoe, context: Context) {
+     fun addShoeToCollection(shoe: Shoe, context: Context) {
         val android_id = getString(context.contentResolver,
                 ANDROID_ID)
 

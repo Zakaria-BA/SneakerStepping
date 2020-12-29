@@ -94,7 +94,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     private fun observeShoes() {
         viewModel.collectionOfShoes.observe(viewLifecycleOwner, {
             shoes.clear()
-            shoes.addAll(it)
+            viewModel.collectionOfShoes.value?.let { it1 -> shoes.addAll(it1) }
             shoeAdapter.notifyDataSetChanged()
         })
     }

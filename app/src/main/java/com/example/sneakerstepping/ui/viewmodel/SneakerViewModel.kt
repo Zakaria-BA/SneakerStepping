@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -65,6 +66,9 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
 
     fun addShoeToCollection(shoe: Shoe, context: Context) {
         firebaseRepository.addShoeToCollection(shoe, context)
+        Handler().postDelayed({
+            getCollectionOfShoes(context)
+        }, 2000)
     }
 
     fun getCollectionOfShoes(context: Context) {
