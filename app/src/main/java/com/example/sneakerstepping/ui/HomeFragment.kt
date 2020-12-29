@@ -107,6 +107,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     }
 
     private fun putOn(shoe: Shoe) {
+        totalSteps = 0
         numSteps = 0
         viewModel.setPutOnShoe(shoe, requireContext())
     }
@@ -121,6 +122,7 @@ class HomeFragment : Fragment(), SensorEventListener {
         viewModel.getCollectionOfShoes(requireContext())
         updateUi(null)
         hasShoesOnFoot = false
+        totalSteps = 0
     }
 
 
@@ -141,7 +143,6 @@ class HomeFragment : Fragment(), SensorEventListener {
         if (hasShoesOnFoot) {
             numSteps++
             totalSteps = viewModel.shoeOnFoot.value?.milageCovered?.plus(numSteps)!!
-            Log.d(TAG, totalSteps.toString())
             tvShoeMilageEver.text = "Total steps taken: " + totalSteps
             Handler().postDelayed({
                 if (hasShoesOnFoot) {
