@@ -106,10 +106,10 @@ class FirebaseRepository {
         }
     }
 
-    fun deleteShoeFromCollection(shoe: Shoe, context: Context) {
+    fun deleteShoeFromCollection(shoe: Shoe, context: Context, position: Int) {
         val android_id = getString(context.contentResolver,
                 ANDROID_ID)
-
+        _collectionOfShoes.value?.removeAt(position)
         firestore.collection(android_id).document(shoe.shoeId)
                 .delete()
                 .addOnSuccessListener {

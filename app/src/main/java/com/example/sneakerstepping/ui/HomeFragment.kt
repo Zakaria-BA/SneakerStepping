@@ -79,10 +79,10 @@ class HomeFragment : Fragment(), SensorEventListener {
         navController = findNavController()
         rvCollectionShoes.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvCollectionShoes.adapter = shoeAdapter
-        viewModel.getCollectionOfShoes(requireContext())
         removeShoeButton.setOnClickListener { removeShoe() }
         observeShoeOnfeet()
         observeShoes()
+        shoeAdapter.notifyDataSetChanged()
         fab.setOnClickListener { navigateUserToAddShoe() }
         createItemTouchHelper().attachToRecyclerView(rvCollectionShoes)
     }
@@ -177,9 +177,9 @@ class HomeFragment : Fragment(), SensorEventListener {
                         removeShoe()
                     }
                 }
-                viewModel.deleteShoeFromCollection(shoes[position], requireContext())
+                viewModel.deleteShoeFromCollection(shoes[position], requireContext(), position)
                 shoes.removeAt(position)
-                Log.d(TAG, shoes.toString())
+
                 shoeAdapter.notifyDataSetChanged()
             }
         }
