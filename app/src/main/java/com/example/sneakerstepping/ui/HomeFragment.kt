@@ -1,5 +1,6 @@
 package com.example.sneakerstepping.ui
 
+import android.content.ContentValues.TAG
 import android.content.Context.SENSOR_SERVICE
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -38,6 +39,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     private val shoeAdapter = ShoeAdapter(shoes, ::putOn)
     private val viewModel: SneakerViewModel by activityViewModels()
     var sensorManager: SensorManager? = null
+    private var numSteps: Long = 0
     private var hasShoesOnFoot: Boolean = false
 
 
@@ -61,16 +63,16 @@ class HomeFragment : Fragment(), SensorEventListener {
     override fun onResume() {
         super.onResume()
 
-        var stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        var stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
 
-        if (stepSensor == null){
+        if (stepSensor == null) {
             Toast.makeText(requireContext(), "No Step Counter Sensor !", Toast.LENGTH_SHORT).show()
-        } else{
+        } else {
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
         }
     }
 
-    private fun initViews(){
+    private fun initViews() {
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
         navController = findNavController()
         rvCollectionShoes.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -81,7 +83,7 @@ class HomeFragment : Fragment(), SensorEventListener {
         fab.setOnClickListener { navigateUserToAddShoe() }
     }
 
-    private fun navigateUserToAddShoe(){
+    private fun navigateUserToAddShoe() {
         navController.navigate(R.id.action_homeFragment_to_addShoeFragment)
     }
 
@@ -93,7 +95,7 @@ class HomeFragment : Fragment(), SensorEventListener {
         })
     }
 
-    private fun observeShoeOnfeet(){
+    private fun observeShoeOnfeet() {
         viewModel.shoeOnFoot.observe(viewLifecycleOwner, {
             if (it !== null) {
                 updateUi(it)
@@ -102,11 +104,11 @@ class HomeFragment : Fragment(), SensorEventListener {
         })
     }
 
-    private fun putOn(shoe: Shoe){
-        viewModel.setPutOnShoe(shoe)
+    private fun putOn(shoe: Shoe) {
+        viewModel.setPutOnShoe(shoe, requireContext())
     }
 
-    private fun removeShoe(){
+    private fun removeShoe() {
         viewModel.removeShoe()
         updateUi(null)
         hasShoesOnFoot = false
@@ -114,7 +116,7 @@ class HomeFragment : Fragment(), SensorEventListener {
 
 
     private fun updateUi(shoe: Shoe?) {
-        if (shoe == null){
+        if (shoe == null) {
             tvWearing.text = "You have no shoes on foot. :("
             shoeOnFootCard.isVisible = false
         } else {
@@ -122,20 +124,18 @@ class HomeFragment : Fragment(), SensorEventListener {
             shoeOnFootCard.isVisible = true
             tvShoeOnFootTitle.text = shoe?.shoeName
             Glide.with(requireContext()).load(shoe?.shoeImage).into(ivShoeOnFootPicture)
-            tvShoeMilageEver.text = "Total milage covered: " + shoe?.milageCovered.toString()
+            tvShoeMilageEver.text = "Total steps taken: " + shoe?.milageCovered.toString()
         }
     }
 
     override fun onSensorChanged(p0: SensorEvent?) {
-        var currentMilage = viewModel.shoeOnFoot.value!!.milageCovered
-        if (hasShoesOnFoot){
-            if (p0 != null) {
-                currentMilage!!.plus(p0.values[0].toLong())
-                tvShoeMilageEver.setText(p0.values[0].toString())
-                Handler().postDelayed({
-                    viewModel.updateShoe(currentMilage, requireContext())
-                }, 1000)
-            }
+        if (hasShoesOnFoot) {
+            numSteps++
+            var totalSteps = viewModel.shoeOnFoot.value?.milageCovered!! + numSteps
+            tvShoeMilageEver.text = "Total steps taken: " + totalSteps
+            Handler().postDelayed({
+                viewModel.updateShoe(totalSteps, requireContext())
+            }, 30 * 1000)
         }
     }
 

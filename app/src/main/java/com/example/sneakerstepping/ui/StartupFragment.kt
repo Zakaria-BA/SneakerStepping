@@ -40,7 +40,6 @@ class StartupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews()
     }
 
@@ -49,6 +48,7 @@ class StartupFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         setHasOptionsMenu(false)
         observeUser()
+        observeLogin()
         createAccountButton.setOnClickListener { navigateUser() }
         logInButton.setOnClickListener { logIn() }
     }
@@ -79,13 +79,17 @@ class StartupFragment : Fragment() {
 
     private fun observeUser(){
         viewModel.user.observe(viewLifecycleOwner, {
-            if (it != null) {
-                try {
-                    navController.navigate(R.id.action_startupFragment_to_homeFragment)
-                } catch (e: Exception){
-                    Log.e(TAG, e.toString())
-                }
-            } else updateUi(false)
+            if (it != null){
+                navController.navigate(R.id.action_startupFragment_to_homeFragment)
+            }
+        })
+    }
+
+    private fun observeLogin(){
+        viewModel.loginSucces.observe(viewLifecycleOwner, {
+            if (!it) {
+                updateUi(false)
+            }
         })
     }
 

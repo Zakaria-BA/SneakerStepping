@@ -85,6 +85,7 @@ class AddShoeFragment : Fragment() {
 
     private fun observeShoes() {
         viewModel.shoesForUsers.observe(viewLifecycleOwner, {
+            shoesForUsers.clear()
             shoesForUsers.addAll(it)
             addShoeAdapter.notifyDataSetChanged()
         })

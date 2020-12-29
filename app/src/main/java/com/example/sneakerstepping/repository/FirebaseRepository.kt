@@ -23,9 +23,13 @@ class FirebaseRepository {
     lateinit var auth: FirebaseAuth
     private val _user: MutableLiveData<FirebaseUser?> = MutableLiveData()
     private val _registerSucces: MutableLiveData<Boolean> = MutableLiveData()
+    private val _loginSucces: MutableLiveData<Boolean> = MutableLiveData()
     private val _collectionOfShoes: MutableLiveData<ArrayList<Shoe>> = MutableLiveData()
     private val _shoesForUser: MutableLiveData<ArrayList<Shoe>> = MutableLiveData()
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    val loginSucces: LiveData<Boolean>
+        get() = _loginSucces
 
     val collectionOfShoes: LiveData<ArrayList<Shoe>>
         get() = _collectionOfShoes
@@ -67,7 +71,9 @@ class FirebaseRepository {
                 .addOnCompleteListener(activity) {
                     if (it.isSuccessful) {
                         _user.value = auth.currentUser
+                        _loginSucces.value = true
                     } else {
+                        _loginSucces.value = false
                         Toast.makeText(activity, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -147,7 +153,7 @@ class FirebaseRepository {
         firestore.collection(android_id).document(shoe.shoeId)
                 .set(updatedShoe)
                 .addOnSuccessListener {
-                    Log.d(TAG, "Shoe milage is updated")
+                    Log.d(TAG, "Shoe milage is updated" + shoe.milageCovered.toString())
                 }
                 .addOnFailureListener { Log.e(TAG, "Shoe milage can't be updated") }
     }
