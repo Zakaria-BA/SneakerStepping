@@ -30,6 +30,7 @@ import com.example.sneakerstepping.adapter.ShoeAdapter
 import com.example.sneakerstepping.models.Shoe
 import com.example.sneakerstepping.ui.viewmodel.SneakerViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.lang.Exception
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
@@ -41,6 +42,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     var sensorManager: SensorManager? = null
     private var numSteps: Long = 0
     private var hasShoesOnFoot: Boolean = false
+    private var totalSteps: Long = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,11 +107,18 @@ class HomeFragment : Fragment(), SensorEventListener {
     }
 
     private fun putOn(shoe: Shoe) {
+        numSteps = 0
         viewModel.setPutOnShoe(shoe, requireContext())
     }
 
     private fun removeShoe() {
+        if (totalSteps != 0.toLong()){
+            var shoe = Shoe(viewModel.shoeOnFoot.value!!.shoeId, viewModel.shoeOnFoot.value!!.shoeName, viewModel.shoeOnFoot.value!!.shoeImage, viewModel.shoeOnFoot.value!!.shoeType,
+                    totalSteps)
+            viewModel.updateShoe(shoe, requireContext())
+        }
         viewModel.removeShoe()
+        viewModel.getCollectionOfShoes(requireContext())
         updateUi(null)
         hasShoesOnFoot = false
     }
@@ -131,11 +140,16 @@ class HomeFragment : Fragment(), SensorEventListener {
     override fun onSensorChanged(p0: SensorEvent?) {
         if (hasShoesOnFoot) {
             numSteps++
-            var totalSteps = viewModel.shoeOnFoot.value?.milageCovered!! + numSteps
+            totalSteps = viewModel.shoeOnFoot.value?.milageCovered?.plus(numSteps)!!
+            Log.d(TAG, totalSteps.toString())
             tvShoeMilageEver.text = "Total steps taken: " + totalSteps
             Handler().postDelayed({
-                viewModel.updateShoe(totalSteps, requireContext())
-            }, 30 * 1000)
+                if (hasShoesOnFoot) {
+                    var shoe = Shoe(viewModel.shoeOnFoot.value!!.shoeId, viewModel.shoeOnFoot.value!!.shoeName, viewModel.shoeOnFoot.value!!.shoeImage, viewModel.shoeOnFoot.value!!.shoeType,
+                            totalSteps)
+                    viewModel.updateShoe(shoe, requireContext())
+                }
+            }, 30000)
         }
     }
 

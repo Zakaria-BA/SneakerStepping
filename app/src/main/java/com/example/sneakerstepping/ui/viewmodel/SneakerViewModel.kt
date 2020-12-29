@@ -2,7 +2,9 @@ package com.example.sneakerstepping.ui.viewmodel
 
 import android.app.Activity
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -87,8 +89,8 @@ class SneakerViewModel(application: Application) : AndroidViewModel(application)
         _shoeOnFoot.value = null
     }
 
-    fun updateShoe(milage: Long, context: Context) {
-        firebaseRepository.updateShoeMilage(Shoe(shoeOnFoot.value!!.shoeId, shoeOnFoot.value!!.shoeName, shoeOnFoot.value!!.shoeImage, shoeOnFoot.value!!.shoeType, milage), context)
+    fun updateShoe(shoe: Shoe, context: Context) {
+        firebaseRepository.updateShoeMilage(shoe, context)
     }
 
 }
