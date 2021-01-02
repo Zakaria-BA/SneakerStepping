@@ -67,9 +67,7 @@ class HomeFragment : Fragment(), SensorEventListener {
         super.onResume()
         var stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
 
-        if (stepSensor == null) {
-            Toast.makeText(requireContext(), "No Step Counter Sensor !", Toast.LENGTH_SHORT).show()
-        } else {
+        if (stepSensor != null) {
             sensorManager?.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
         }
     }

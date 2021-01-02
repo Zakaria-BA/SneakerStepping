@@ -96,7 +96,7 @@ class AddShoeFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Which shoe needs to be added to the database?")
         val input = EditText(requireContext())
-        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_CLASS_TEXT
         builder.setView(input)
         builder.setPositiveButton("Send", { dialogInterface: DialogInterface, i: Int -> sendRequestAndNavigate(input.text.toString())})
         builder.setNegativeButton("Cancel", { dialogInterface: DialogInterface, i: Int -> })

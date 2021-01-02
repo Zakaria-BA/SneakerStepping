@@ -108,10 +108,8 @@ class FirebaseRepository {
     }
 
     fun deleteShoeFromCollection(shoe: Shoe, context: Context, position: Int) {
-        val android_id = getString(context.contentResolver,
-                ANDROID_ID)
         _collectionOfShoes.value?.removeAt(position)
-        firestore.collection(android_id).document(shoe.shoeId)
+        firestore.collection(_user.value!!.uid).document(shoe.shoeId)
                 .delete()
                 .addOnSuccessListener {
                     Toast.makeText(context, "Shoe deleted succesfully!", Toast.LENGTH_SHORT).show()
@@ -120,20 +118,17 @@ class FirebaseRepository {
     }
 
      fun addShoeToCollection(shoe: Shoe, context: Context) {
-        val android_id = getString(context.contentResolver,
-                ANDROID_ID)
-
         val addedShoe = hashMapOf(
                 "name" to shoe.shoeName,
                 "type" to shoe.shoeType,
                 "image" to shoe.shoeImage,
                 "milage_coverd" to shoe.milageCovered
         )
-        val checkForDuplicate = firestore.collection(android_id).document(shoe.shoeId)
+        val checkForDuplicate = firestore.collection(_user.value!!.uid).document(shoe.shoeId)
         checkForDuplicate.get()
                 .addOnSuccessListener {
                     if (it.getString("name") != shoe.shoeName) {
-                        firestore.collection(android_id).document(shoe.shoeId)
+                        firestore.collection(_user.value!!.uid).document(shoe.shoeId)
                                 .set(addedShoe)
                                 .addOnSuccessListener {
                                     Toast.makeText(context, "Shoe is added to your collection!", Toast.LENGTH_SHORT).show()
@@ -151,8 +146,6 @@ class FirebaseRepository {
     }
 
     fun updateShoeMilage(shoe: Shoe, context: Context) {
-        val android_id = getString(context.contentResolver,
-                ANDROID_ID)
 
         val updatedShoe = hashMapOf(
                 "name" to shoe.shoeName,
@@ -161,7 +154,7 @@ class FirebaseRepository {
                 "milage_coverd" to shoe.milageCovered
         )
 
-        firestore.collection(android_id).document(shoe.shoeId)
+        firestore.collection(_user.value!!.uid).document(shoe.shoeId)
                 .set(updatedShoe)
                 .addOnSuccessListener {
                     Log.d(TAG, "Shoe milage is updated" + shoe.milageCovered.toString())
@@ -184,10 +177,9 @@ class FirebaseRepository {
     }
 
     suspend fun getCollectionOfShoes(context: Context) {
-        val android_id = getString(context.contentResolver,
-                ANDROID_ID)
+
         val userCollectionOfShoes: ArrayList<Shoe> = ArrayList()
-        val data = firestore.collection(android_id)
+        val data = firestore.collection(_user.value!!.uid)
         try {
             val data = data
                     .get()
